@@ -2,27 +2,28 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200906221308_InitalCreate")]
+    partial class InitalCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-             modelBuilder
+            modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.7");
 
-            modelBuilder.Entity("Core.Entities.Product", b =>
+            modelBuilder.Entity("Core.Entity.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(180);
 
@@ -31,18 +32,18 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
-                    b.Property<string>("PictureUrl")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -53,7 +54,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductBrand", b =>
+            modelBuilder.Entity("Core.Entity.ProductBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,7 +68,7 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ProductBrands");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductType", b =>
+            modelBuilder.Entity("Core.Entity.ProductType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,15 +82,15 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ProductTypes");
                 });
 
-            modelBuilder.Entity("Core.Entities.Product", b =>
+            modelBuilder.Entity("Core.Entity.Product", b =>
                 {
-                    b.HasOne("Core.Entities.ProductBrand", "ProductBrand")
+                    b.HasOne("Core.Entity.ProductBrand", "ProductBrand")
                         .WithMany()
                         .HasForeignKey("ProductBrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.ProductType", "ProductType")
+                    b.HasOne("Core.Entity.ProductType", "ProductType")
                         .WithMany()
                         .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
